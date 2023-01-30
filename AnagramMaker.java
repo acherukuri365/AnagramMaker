@@ -26,7 +26,8 @@ public class AnagramMaker {
 	 */
 	public AnagramMaker() {
 		wu = new WordUtilities();
-		wu.readWordsFromFile(FILE_NAME);
+		//~ wu.readWordsFromFile(FILE_NAME);
+		wu.loadWords(FILE_NAME);
 		wu.sortWords();
 	}
 	
@@ -59,22 +60,24 @@ public class AnagramMaker {
 	 *	characters.
 	 */
 	public void runAnagramMaker() {
-		while(!input.equals("q")) {
-			String input = Prompt.getString("Word(s), name or phrase (q to quit)");
-			if(input.equals("q")) {
-				input = input
-			}
-			else {
-				numWords = Prompt.getInt("Number of words in anagram";
+		String input = "";
+		while(!input.equalsIgnoreCase("q")) {
+			input = Prompt.getString("Word(s), name or phrase (q to quit)");
+			if(!input.equalsIgnoreCase("q")) {
+				numWords = Prompt.getInt("Number of words in anagram");
 				maxPhrases = Prompt.getInt("Maximun number of anagrams to print");
 				
-				System.out.println();
+				System.out.println("\n");
 				
+				getAnagrams(input);
 				
-				
-				System.out.println("Stopped at " + maxPhrases + " anagrams");
+				System.out.println("\nStopped at " + maxPhrases + " anagrams\n");
 			}
 		}
+	}
+	
+	public void getAnagrams(String input) {
+		
 	}
 
 	

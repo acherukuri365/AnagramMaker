@@ -63,17 +63,17 @@ public class SortMethods {
 	 *	Merge Sort algorithm - in ascending order (you implement)
 	 *	@param arr		array of Integer objects to sort
 	 */
-	public Integer[] mergeSort(Integer [] arr) {
+	public String[] mergeSort(String [] arr) {
 		if(arr.length == 1) 
 			return arr;
 		else if (arr.length == 2) {
-			if(arr[0] > arr[1])
-				swap(arr, 0, 1);
+			if(arr[0].compareTo(arr[1]) > 0)
+				swapString(arr, 0, 1);
 			return arr;
 		}
 		else {
-			Integer[] tmp1 = new Integer[(arr.length-1)/2 + 1];
-			Integer[] tmp2 = new Integer[arr.length - ((arr.length-1)/2 + 1)];
+			String[] tmp1 = new String[(arr.length-1)/2 + 1];
+			String[] tmp2 = new String[arr.length - ((arr.length-1)/2 + 1)];
 			for(int i = 0; i < tmp1.length; i++)
 				tmp1[i] = arr[i];
 			for(int i = tmp1.length; i < arr.length; i++)
@@ -84,7 +84,7 @@ public class SortMethods {
 			int c1 = 0;
 			int c2 = 0;
 			while(c1 < tmp1.length && c2 < tmp2.length) {
-				if(tmp1[c1] < tmp2[c2]) {
+				if(tmp1[c1].compareTo(tmp2[c2]) < 0) {
 					arr[c1+c2] = tmp1[c1];
 					c1++;
 				}
@@ -107,6 +107,18 @@ public class SortMethods {
 			}
 			return arr;
 		}
+	}
+	
+	/**
+	 *	Swaps two String objects in array arr
+	 *	@param arr		array of String objects
+	 *	@param x		index of first object to swap
+	 *	@param y		index of second object to swap
+	 */
+	private void swapString(String[] arr, int x, int y) {
+		String tmp = arr[x];
+		arr[x] = arr[y];
+		arr[y] = tmp;
 	}
 	
 	/*****************************************************************/
@@ -170,16 +182,16 @@ public class SortMethods {
 		System.out.println();
 
 		
-		for (int a = 0; a < 10; a++)
-			arr[a] = (int)(Math.random() * 100) + 1;
-		System.out.println("\nMerge Sort");
-		System.out.println("Array before sort:");
-		printArray(arr);
-		System.out.println();
-		mergeSort(arr);
-		System.out.println("Array after sort:");
-		printArray(arr);
-		System.out.println();
+		//~ for (int a = 0; a < 10; a++)
+			//~ arr[a] = (int)(Math.random() * 100) + 1;
+		//~ System.out.println("\nMerge Sort");
+		//~ System.out.println("Array before sort:");
+		//~ printArray(arr);
+		//~ System.out.println();
+		//~ mergeSort(arr);
+		//~ System.out.println("Array after sort:");
+		//~ printArray(arr);
+		//~ System.out.println();
 
 	}
 }
