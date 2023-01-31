@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  *	AnagramMaker - <description goes here>
  *
@@ -69,6 +71,7 @@ public class AnagramMaker {
 				
 				System.out.println("\n");
 				
+				ArrayList<String> anagram = new ArrayList<String>();
 				getAnagrams(input);
 				
 				System.out.println("\nStopped at " + maxPhrases + " anagrams\n");
@@ -76,8 +79,14 @@ public class AnagramMaker {
 		}
 	}
 	
-	public void getAnagrams(String input) {
-		
+	public void getAnagrams(String input, ArrayList<String> anagram) {
+		if(input.length() > 0) {
+			ArrayList<String> matches = wu.allWords(input);
+			for(int i = 0; i < matches.size(); i++) {
+				anagram.add(matches.get(i));
+				String words = remove(input, allwords.get(i))
+			}
+		}
 	}
 
 	
