@@ -64,30 +64,73 @@ public class AnagramMaker {
 	public void runAnagramMaker() {
 		String input = "";
 		while(!input.equalsIgnoreCase("q")) {
-			input = Prompt.getString("Word(s), name or phrase (q to quit)");
+			numPhrases = 0;
+			while(input.length() == 0) {
+				input = Prompt.getString("Word(s), name or phrase (q to quit)");
+			}
 			if(!input.equalsIgnoreCase("q")) {
 				numWords = Prompt.getInt("Number of words in anagram");
-				maxPhrases = Prompt.getInt("Maximun number of anagrams to print");
+				maxPhrases = Prompt.getInt("Maximum number of anagrams to print");
 				
-				System.out.println("\n");
+				System.out.println("");
 				
 				ArrayList<String> anagram = new ArrayList<String>();
-				getAnagrams(input);
+				input = checkString(input);
+				getAnagrams(input, anagram);
 				
-				System.out.println("\nStopped at " + maxPhrases + " anagrams\n");
+				System.out.println();
+				if(numPhrases >= maxPhrases)
+					System.out.println("Stopped at " + maxPhrases + " anagrams\n");
+
+				input = "";
 			}
 		}
 	}
 	
 	public void getAnagrams(String input, ArrayList<String> anagram) {
-		if(input.length() > 0) {
+		if(input.length() > 0 && numPhrases < maxPhrases) {
 			ArrayList<String> matches = wu.allWords(input);
 			for(int i = 0; i < matches.size(); i++) {
 				anagram.add(matches.get(i));
-				String words = remove(input, allwords.get(i))
+				String words = remove(input, matches.get(i));
+				if(words.length() == 0 && anagram.size() == numWords) {
+					numPhrases++;
+					for(int j = 0; j < anagram.size(); j++) {
+						System.out.print(anagram.get(j) + " ");
+					}
+					System.out.println();
+				}
+				else {
+//					System.out.println(words + " " + anagram);
+					getAnagrams(words, anagram);
+				}
+
+				anagram.remove(anagram.size() - 1);
 			}
 		}
 	}
 
-	
+	private String remove(String phrase, String word) {
+		while(word.length() > 0) {
+            char lett = word.charAt(0);
+            if(phrase.indexOf(lett) == phrase.length() - 1)
+                phrase = phrase.substring(0, phrase.length() - 1);
+            else
+                phrase = phrase.substring(0, phrase.indexOf(lett)) + phrase.substring(phrase.indexOf(lett) + 1);
+            
+            word = word.substring(1);
+        }
+        return phrase;
+	}
+
+	private String checkString(String input) {
+		for(int i = 0; i < input.length(); i++) {
+			char lett = input.charAt(i);
+			if(!Character.isLetter(lett) && !Character.isDigit(lett)) {
+				input = input.substring(0, i) + input.substring(i + 1);
+				i--;
+			}
+		}
+		return input;
+	}
 }
