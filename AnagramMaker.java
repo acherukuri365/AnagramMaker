@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
 /**
- *	AnagramMaker - <description goes here>
+ *	AnagramMaker - This program prompts the user for any word(s), name(s),
+ * 	or phrases(s). It then asks the user for the number of words in the
+ * 	anagrams to print, followed by the maximum number of anagrams to print
+ * 	to the screen. The program outputs as many anagrams as possible with
+ * 	the given constraints and input String.
  *
  *	Requires the WordUtilities, SortMethods, Prompt, and FileUtils classes
  *
@@ -87,29 +91,54 @@ public class AnagramMaker {
 		}
 	}
 	
+	/**
+	 * 	Recursive method to find, construct, and print anagrams given
+	 * 	the user's input string.
+	 * 	@param	input		Initially the user's input, recursively passed
+	 * 						and removed from until length is zero.
+	 * 	@param	anagram		ArrayList to store all words in current anagram.
+	 */
 	public void getAnagrams(String input, ArrayList<String> anagram) {
-		if(input.length() > 0 && numPhrases < maxPhrases) {
+		if(input.length() == 0 && anagram.size() == numWords) {
+			numPhrases++;
+			for(int j = 0; j < anagram.size(); j++) {
+				System.out.print(anagram.get(j) + " ");
+			}
+			System.out.println();
+			return;
+		}
+		
+		if(anagram.size() == numWords) return;
+		//~ if(input.length() > 0 && numPhrases < maxPhrases) {
+		else {
 			ArrayList<String> matches = wu.allWords(input);
 			for(int i = 0; i < matches.size(); i++) {
 				anagram.add(matches.get(i));
 				String words = remove(input, matches.get(i));
-				if(words.length() == 0 && anagram.size() == numWords) {
-					numPhrases++;
-					for(int j = 0; j < anagram.size(); j++) {
-						System.out.print(anagram.get(j) + " ");
-					}
-					System.out.println();
-				}
-				else {
-//					System.out.println(words + " " + anagram);
+				//~ if(words.length() == 0 && anagram.size() == numWords) {
+					//~ numPhrases++;
+					//~ for(int j = 0; j < anagram.size(); j++) {
+						//~ System.out.print(anagram.get(j) + " ");
+					//~ }
+					//~ System.out.println();
+				//~ }
+				//~ else {
 					getAnagrams(words, anagram);
-				}
+				//~ }
 
 				anagram.remove(anagram.size() - 1);
+				
+				if(maxPhrases < numPhrases) return;
 			}
 		}
 	}
-
+	
+	/**
+	 * 	Removes letter instances of a used word from the input string.
+	 * 	@param	phrase		User's input, initial or modified.
+	 * 	@param	word		Word to remove from phrase.
+	 * 	Precondition: All letters in word are in phrase.
+	 */
 	private String remove(String phrase, String word) {
 		while(word.length() > 0) {
             char lett = word.charAt(0);
@@ -122,7 +151,11 @@ public class AnagramMaker {
         }
         return phrase;
 	}
-
+	
+	/**
+	 * 	Checks for and removes any non-alphanumeric characters in input string.
+	 * 	@param	input		User's initial input
+	 */
 	private String checkString(String input) {
 		for(int i = 0; i < input.length(); i++) {
 			char lett = input.charAt(i);
